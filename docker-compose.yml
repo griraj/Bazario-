@@ -1,0 +1,39 @@
+version: "3.9"
+
+services:
+
+  postgres:
+    image: postgres:16-alpine
+    container_name: bazario-postgres
+    environment:
+      POSTGRES_DB: bazario
+      POSTGRES_USER: bazario
+      POSTGRES_PASSWORD: bazario
+    ports:
+      - "5432:5432"
+    volumes:
+      - bazario-pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U bazario -d bazario"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  api:
+    build: .
+    container_name: bazario-api
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      BAZARIO_DB_URL: jdbc:postgresql://postgres:5432/bazario
+      BAZARIO_DB_USER: bazario
+      BAZARIO_DB_PASS: bazario
+      # IMPORTANT: override this with a strong secret in production
+      BAZARIO_JWT_SECRET: BazarioSuperSecretKeyForJWTSigningThatIsAtLeast256BitsLong!
+      BAZARIO_JWT_EXPIRY_MS: 86400000
+    ports:
+      - "8080:8080"
+
+volumes:
+  bazario-pgdata:
