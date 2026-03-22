@@ -19,21 +19,6 @@
 
 ---
 
-## User Stories Implemented
-
-| ID | Story | Status |
-|---|---|---|
-| US-01 | Customer registration | ✅ |
-| US-02 | Secure login (JWT) | ✅ |
-| US-03 | Vendor storefront registration | ✅ |
-| US-04 | Vendor adds product listing | ✅ |
-| US-05 | Browse products by category | ✅ |
-| US-06 | Search products by name | ✅ |
-| US-07 | Admin views all vendors | ✅ |
-| US-08 | Vendor edits product details | ✅ |
-
----
-
 ## Running Locally
 
 ### Prerequisites
