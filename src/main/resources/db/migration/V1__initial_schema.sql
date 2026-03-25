@@ -14,8 +14,8 @@ CREATE TABLE users (
     last_name     VARCHAR(100) NOT NULL,
     role          VARCHAR(50)  NOT NULL,
     enabled       BOOLEAN      NOT NULL DEFAULT TRUE,
-    created_at    TIMESTAMPTZ  NOT NULL DEFAULT NOW(),
-    updated_at    TIMESTAMPTZ  NOT NULL DEFAULT NOW()
+    created_at    TIMESTAMP  NOT NULL DEFAULT NOW(),
+    updated_at    TIMESTAMP  NOT NULL DEFAULT NOW()
 );
 
 CREATE INDEX idx_users_email ON users(email);
@@ -27,8 +27,8 @@ CREATE TABLE storefronts (
     name        VARCHAR(255) NOT NULL UNIQUE,
     description TEXT,
     status      VARCHAR(20)  NOT NULL DEFAULT 'PENDING',
-    created_at  TIMESTAMPTZ  NOT NULL DEFAULT NOW(),
-    updated_at  TIMESTAMPTZ  NOT NULL DEFAULT NOW(),
+    created_at  TIMESTAMP  NOT NULL DEFAULT NOW(),
+    updated_at  TIMESTAMP  NOT NULL DEFAULT NOW(),
     CONSTRAINT chk_storefront_status CHECK (status IN ('PENDING', 'ACTIVE', 'SUSPENDED'))
 );
 
@@ -60,8 +60,8 @@ CREATE TABLE products (
     stock_quantity INTEGER         NOT NULL DEFAULT 0,
     sku            VARCHAR(100)    UNIQUE,
     status         VARCHAR(20)     NOT NULL DEFAULT 'DRAFT',
-    created_at     TIMESTAMPTZ     NOT NULL DEFAULT NOW(),
-    updated_at     TIMESTAMPTZ     NOT NULL DEFAULT NOW(),
+    created_at     TIMESTAMP     NOT NULL DEFAULT NOW(),
+    updated_at     TIMESTAMP     NOT NULL DEFAULT NOW(),
     CONSTRAINT chk_product_price  CHECK (price >= 0),
     CONSTRAINT chk_product_stock  CHECK (stock_quantity >= 0),
     CONSTRAINT chk_product_status CHECK (status IN ('DRAFT', 'ACTIVE', 'INACTIVE'))
@@ -69,4 +69,4 @@ CREATE TABLE products (
 
 CREATE INDEX idx_products_category  ON products(category_id);
 CREATE INDEX idx_products_storefront ON products(storefront_id);
-CREATE INDEX idx_products_name_search ON products USING gin(to_tsvector('english', name));
+
