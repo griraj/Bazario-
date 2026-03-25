@@ -32,12 +32,14 @@ public class AuthServiceImpl implements AuthService {
             throw new ConflictException("An account with this email already exists");
         }
 
+        Role assignedRole = "VENDOR".equalsIgnoreCase(request.getRole()) ? Role.ROLE_VENDOR : Role.ROLE_CUSTOMER;
+
         User user = User.builder()
                 .email(request.getEmail().toLowerCase().strip())
                 .passwordHash(passwordEncoder.encode(request.getPassword()))
                 .firstName(request.getFirstName().strip())
                 .lastName(request.getLastName().strip())
-                .role(Role.ROLE_CUSTOMER)
+                .role(assignedRole)
                 .build();
 
         userRepository.save(user);
